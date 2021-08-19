@@ -1,3 +1,14 @@
+/* Menu
+ * Button 1
+ *  1. Bluetooth -> active/deactive 
+ *  2. Wifi-> Button 2: active/deactive/clear ssid
+ *  3. Valve Threshold ->  
+ * Button 2: Prev
+ * Button 3: Next
+ * Button 4: OK
+ */
+
+
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin[4] = {4,5,6,7};    // the number of the pushbutton pin
 const int ledPin = 13;      // the number of the LED pin
@@ -23,10 +34,8 @@ void setup() {
 }
 
 void loop() {
-count[0]=debounce(0);
-count[1]=debounce(1);
-count[2]=debounce(2);
-count[3]=debounce(3);
+for(int x=0;x<4;x++)count[x]=debounce(x);
+
 }
 
 int debounce(int x){
@@ -54,8 +63,8 @@ int debounce(int x){
 }
 
 void but_max(){
-  if (count[0]>4)count[0]=0;
-  if (count[1]>14)count[1]=10;
-  if (count[2]>24)count[2]=20;
-  if (count[3]>34)count[3]=30;
+  if (count[0]>4)count[0]=1;
+  if (count[0]==1 && count[1]>12)count[1]=11;
+  if (count[0]==2 && (count[1]>24 || count[1]<=20))count[1]=21;
+  if (count[0]==3 && (count[1]>1000 || count[1]<=0) )count[1]=31;
 }
