@@ -48,19 +48,27 @@ void but_max(){
 void menu_ok(int var){
   switch (var){
     case 11:
-      Serial.println("BT ON OK");
+      Serial.println("** Starting BT");
+      SerialBT.begin(bluetooth_name);
       break;
     case 12:
-      Serial.println("BT OFF OK");
+      Serial.println("** Stopping BT");
+      SerialBT.end();
       break;
     case 21:
-      Serial.println("WF ON OK");
+      Serial.println("** Starting STA");
+      new_con();           
       break;
     case 22:
-      Serial.println("WF OFF OK");
+      WiFi.mode(WIFI_OFF);
+      Serial.println("** Stopping WiFi");
       break;
     case 23:
+      preferences.remove("pref_ssid");
+      preferences.remove("pref_pass");
       Serial.println("CLR WF OK");
+      WiFi.mode(WIFI_OFF);
+      new_con();
       break;
     case 30:
       Serial.print("Threshold OK ");
@@ -126,7 +134,17 @@ int set_threshold(){
   }
 }
 
-
+void new_con(){
+   if (!init_wifi()) { //Connect to Wi-Fi fails
+     SerialBT.register_callback(callback);
+     Serial.println("Connect via BT");
+     
+   } else {
+     Serial.println(WiFi.localIP());
+     SerialBT.register_callback(callback_show_ip);
+   }   
+   wifi_connect(); 
+}
 
 // Serial.print(but[0]);
 // Serial.print(", ");

@@ -34,6 +34,7 @@ int sensorValue1, sensorValue2;
 float volt1, volt2;
 const float zref= 20.0;
 const float Vsupply = 3.3; 
+float zSoil;
 
 unsigned long int cur_time = 0 ;
 unsigned long int time_elapsed = 0;
@@ -77,7 +78,14 @@ int wthres,valthres;
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 //////////////////////////////////////////////
+#include "ThingSpeak.h"
+unsigned long myChannelNumber = 1;
+const char * myWriteAPIKey = "602828DGK05O5J92";
+unsigned long lastTime = 0;
+unsigned long timerDelay = 15000;
+WiFiClient  client;
 
+///
 void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(115200); 
@@ -89,16 +97,17 @@ void setup() {
   valthres=preferences.getString("wthres", "").toInt();
 
 
-//  if (!init_wifi()) { // Connect to Wi-Fi fails
-//    SerialBT.register_callback(callback);
-//  } else {
-//    SerialBT.register_callback(callback_show_ip);
-//  }
+  if (!init_wifi()) { // Connect to Wi-Fi fails
+    SerialBT.register_callback(callback);
+  } else {
+    SerialBT.register_callback(callback_show_ip);
+  }
 
-  SerialBT.begin(bluetooth_name);
+  //SerialBT.begin(bluetooth_name);
   //button setup
   for(int x=0;x<4;x++)pinMode(buttonPin[x],INPUT_PULLUP);
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, ledState);
-  
+ ////
+ ThingSpeak.begin(client);  // Initialize ThingSpeak
 }

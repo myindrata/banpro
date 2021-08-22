@@ -9,9 +9,9 @@ void oled_init(){
   display.clearDisplay();
   display.setTextSize(1);             
   display.setTextColor(WHITE);        
-  display.setCursor(0,40);             
-  //display.println("Hello, world!");
-  drawCentreString("ONE", 60, 49);
+  //display.setCursor(0,40);             
+  //display.println("Auto Watering 1");
+  drawCentreString("1", 60, 40);
   display.display();
   delay(2000); 
 }
