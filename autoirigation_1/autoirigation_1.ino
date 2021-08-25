@@ -40,7 +40,7 @@ float zSoil;
 
 unsigned long int cur_time = 0 ;
 unsigned long int time_elapsed = 0;
-int time_period = 1;  
+int time_period = 10;  
 
 
 ///////////////////////////////////////////////////////////////
@@ -66,8 +66,10 @@ int lastButtonState[4] = {HIGH,HIGH,HIGH,HIGH};   // the previous reading from t
 unsigned long lastDebounceTime[4];  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 int count[4]={0,1,1,1};
-String menu, menuStr;
+String menu="status";
+String menuStr;
 int wthres,valthres;
+int valvestate;
 //////////////////////////////////////////////
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -81,13 +83,13 @@ int wthres,valthres;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 //////////////////////////////////////////////
 #include "ThingSpeak.h"
-unsigned long myChannelNumber = 1;
+unsigned long myChannelNumber = 1483085;
 const char * myWriteAPIKey = "602828DGK05O5J92";
 unsigned long lastTime = 0;
-unsigned long timerDelay = 15000;
+unsigned long timerDelay = 20000;
 WiFiClient  client;
 int iot=0;
-
+int datasend=0;
 
 ///
 void setup() {
@@ -99,7 +101,6 @@ void setup() {
   pinMode(ledPin, OUTPUT);
   preferences.begin("wifi_access", false);
   oled_init();
-  oled_case0();
   iot=preferences.getInt("iot", 0);
   Serial.print("IOT...");
   Serial.println(iot);
@@ -118,5 +119,6 @@ void setup() {
   digitalWrite(ledPin, ledState);
  ////
   ThingSpeak.begin(client);  // Initialize ThingSpeak
-  delay(500);
+  oled_case0();
+  delay(1000);
 }

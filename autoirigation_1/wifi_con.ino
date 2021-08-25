@@ -11,9 +11,6 @@ void wifi_connect()
     delay(10);
   } 
     
-  if (WiFi.status() == WL_CONNECTED) blinking(2000);
-  else if(WiFi.status() != WL_CONNECTED)blinking(500);;
- 
   switch (wifi_stage)
   {
     case SCAN_START:
@@ -71,13 +68,17 @@ bool init_wifi()
   start_wifi_millis = millis();
   WiFi.begin(pref_ssid, pref_pass);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    oled_show_center("Wait...");
+    delay(1000);
     Serial.print(".");
+    oled_show_center("Connecting...");
     if (millis() - start_wifi_millis > wifi_timeout) {
       WiFi.disconnect(true, true);
+      oled_show_center("Timeout...");
       return false;
     }
   }
+  oled_show_center("Connected");
   return true;
 }
 

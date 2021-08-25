@@ -24,6 +24,34 @@ void drawCentreString(String buf, int x, int y)
     display.print(buf);
 }
 
+void oled_def(){
+    String BTstate,Wifistate,dwthres,impd;
+    if(!SerialBT.isReady())BTstate="BT-OFF";
+    else if(SerialBT.isReady()) BTstate="BT-ON";
+    else if(SerialBT.connect()) BTstate="BT-Connected";
+    if(WiFi.status()==255)Wifistate="WIFI-OFF";
+    else if (WiFi.status()==6)Wifistate="No-Connection";
+    else if (WiFi.status()==3)Wifistate="WIFI-Connected";
+    valthres=preferences.getString("wthres", "").toInt();
+    dwthres="Thres "+ String(valthres);
+    impd="Z = "+ String(zSoil);
+    display.clearDisplay();
+    display.setTextSize(1);  
+    if (millis() - previousMillis1 >= 2000) { 
+      previousMillis1 = millis();      
+      display.setTextColor(WHITE);   
+      display.setCursor(10,10);             
+      display.println(BTstate);  
+      display.setCursor(10,20);             
+      display.println(Wifistate); 
+      display.setCursor(10,30);             
+      display.println(dwthres);    
+      display.setCursor(10,40);             
+      display.println(impd); 
+      display.display();  
+    }
+}
+
 void oled_case0(){
     String BTstate,Wifistate,dwthres,impd;
     if(!SerialBT.isReady())BTstate="BT-OFF";

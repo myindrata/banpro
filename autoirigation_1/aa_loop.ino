@@ -1,10 +1,10 @@
 // the loop routine runs over and over again forever:
 String testext;
 void loop() {
-  //az_det();
+  peak_det();
   send_thingspeak();
   for(int x=0;x<4;x++)menuStr=debounce(x);
- 
+  if (menu=="status")oled_def();
 
 }
 

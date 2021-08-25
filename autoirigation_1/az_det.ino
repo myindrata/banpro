@@ -29,6 +29,20 @@ void peak_det(){
    mx2 = 0;
 }
 
+void testing(){
+     //just for testing
+   zSoil = random(0,4000)/100.0;
+   //valve control
+   if (zSoil>valthres+2){
+    valvestate=1;
+    digitalWrite(valvepin, valvestate);
+   }
+   else if(zSoil<valthres-2){
+    valvestate=0;
+    digitalWrite(valvepin, valvestate);
+   }
+}
+
 //void display_out(){
 //   Serial.print(vin);
 //   Serial.print(",");

@@ -69,8 +69,9 @@ void menu_ok(int var){
       Serial.println("** Starting STA");
       iot=1;
       preferences.putInt("iot", iot);
-      new_con(); 
-      oled_show_center("** Starting STA");          
+      oled_show_center("** Starting STA");    
+      delay(2000);
+      new_con();   
       break;
     case 22:
       WiFi.mode(WIFI_OFF);
@@ -92,6 +93,9 @@ void menu_ok(int var){
       preferences.putString("wthres", String(wthres));
       valthres=wthres;
       break;
+    default:
+      oled_case0();
+    break;    
   }
 }
 
@@ -99,6 +103,7 @@ void main_menu(int var){
   switch (var){
     case 0:
       Serial.println("0. Status");
+      menu="status";
       oled_case0();
       break;
     case 1:
