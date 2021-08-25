@@ -25,13 +25,15 @@ BluetoothSerial SerialBT;
 Preferences preferences;
 long interval = 1000;   
 unsigned long previousMillis = 0; 
+unsigned long previousMillis1 = 0; 
 ////
 ////
 #define pin1 4
 #define pin2 15
+#define valvepin 35
 float tArr=5;
 int sensorValue1, sensorValue2;
-float volt1, volt2;
+float vin, vout;
 const float zref= 20.0;
 const float Vsupply = 3.3; 
 float zSoil;
@@ -52,7 +54,7 @@ int time_period = 1;
  * Button 4: OK
  */
 
-const int buttonPin[] = {14,27,13,12};     // the number of the pushbutton pins
+const int buttonPin[] = {12,13,27,14};     // if 1 ground {12,13,27,14} if 5 ground {14,27,13,12}
 const int ledPin = 2;      // the number of the LED pin
 // Variables will change:
 int ledState = LOW;         // the current state of the output pin
@@ -70,7 +72,7 @@ int wthres,valthres;
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <Fonts/FreeSerif9pt7b.h>
+
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -84,20 +86,24 @@ const char * myWriteAPIKey = "602828DGK05O5J92";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 15000;
 WiFiClient  client;
+int iot=0;
+
 
 ///
 void setup() {
   // initialize serial communication at 9600 bits per second:
   Serial.begin(115200); 
-  oled_init();
+
   //wifi setup
   Serial.println("Booting...");
   pinMode(ledPin, OUTPUT);
   preferences.begin("wifi_access", false);
-  valthres=preferences.getString("wthres", "").toInt();
-
-
-  if (!init_wifi()) { // Connect to Wi-Fi fails
+  oled_init();
+  oled_case0();
+  iot=preferences.getInt("iot", 0);
+  Serial.print("IOT...");
+  Serial.println(iot);
+  if (!init_wifi()&& iot == 1) { // Connect to Wi-Fi fails
     SerialBT.register_callback(callback);
   } else {
     SerialBT.register_callback(callback_show_ip);
@@ -107,7 +113,10 @@ void setup() {
   //button setup
   for(int x=0;x<4;x++)pinMode(buttonPin[x],INPUT_PULLUP);
   pinMode(ledPin, OUTPUT);
+  pinMode(valvepin, OUTPUT);
+  digitalWrite(valvepin, LOW);
   digitalWrite(ledPin, ledState);
  ////
- ThingSpeak.begin(client);  // Initialize ThingSpeak
+  ThingSpeak.begin(client);  // Initialize ThingSpeak
+  delay(500);
 }

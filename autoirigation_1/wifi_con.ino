@@ -132,6 +132,7 @@ void callback_show_ip(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
   if (event == ESP_SPP_SRV_OPEN_EVT) {
     SerialBT.print("ESP32 IP: ");
     SerialBT.println(WiFi.localIP());
+    oled_show_center(String(WiFi.localIP()));
     //bluetooth_disconnect = true;
   }
 }
