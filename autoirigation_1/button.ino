@@ -67,7 +67,6 @@ void menu_ok(int var){
       break;
     case 21:
       Serial.println("** Starting STA");
-      iot=1;
       preferences.putInt("iot", iot);
       oled_show_center("** Starting STA");    
       delay(2000);
@@ -92,6 +91,8 @@ void menu_ok(int var){
       Serial.print(wthres);
       preferences.putString("wthres", String(wthres));
       valthres=wthres;
+      oled_show_center("Threshold OK");  
+      delay(2000);
       break;
     default:
       oled_case0();
@@ -155,13 +156,14 @@ int set_threshold(){
   if (reading2==0)wthres--;
   but_max();
   delay(100);
-   Serial.print(menu);
-   Serial.print(" - ");
-   Serial.print(count[0]);
-   Serial.print(" - ");
-   Serial.print(count[1]);
-   Serial.print(" - ");
-   Serial.println(wthres);
+//   Serial.print(menu);
+//   Serial.print(" - ");
+//   Serial.print(count[0]);
+//   Serial.print(" - ");
+//   Serial.print(count[1]);
+//   Serial.print(" - ");
+//   Serial.println(wthres);
+  oled_show_center(String(wthres));
   debounce(0);
   debounce(3);
   }
@@ -169,6 +171,7 @@ int set_threshold(){
 
 void new_con(){
    while (!init_wifi()) { //Connect to Wi-Fi fails
+     for(int x=0;x<4;x++)menuStr=debounce(x);
      Serial.println("Connect via BT");
      oled_show_center("Connect Wifi via BT");
      SerialBT.register_callback(callback);  

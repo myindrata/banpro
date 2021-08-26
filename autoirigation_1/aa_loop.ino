@@ -2,10 +2,14 @@
 String testext;
 void loop() {
   peak_det();
-  send_thingspeak();
+  if (menu=="status"){
+    if (millis() - previousMillis1 >= 1000) { 
+       previousMillis1 = millis(); 
+       oled_def();
+    }
+  }
+  if(iot==1)send_thingspeak();
   for(int x=0;x<4;x++)menuStr=debounce(x);
-  if (menu=="status")oled_def();
-
 }
 
 void loop_con(){

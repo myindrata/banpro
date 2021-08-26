@@ -79,6 +79,7 @@ bool init_wifi()
     }
   }
   oled_show_center("Connected");
+  iot=1;
   return true;
 }
 

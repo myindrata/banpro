@@ -28,9 +28,9 @@ unsigned long previousMillis = 0;
 unsigned long previousMillis1 = 0; 
 ////
 ////
-#define pin1 4
-#define pin2 15
-#define valvepin 35
+#define pin1 33
+#define pin2 32
+#define valvepin 5
 float tArr=5;
 int sensorValue1, sensorValue2;
 float vin, vout;
@@ -40,7 +40,7 @@ float zSoil;
 
 unsigned long int cur_time = 0 ;
 unsigned long int time_elapsed = 0;
-int time_period = 10;  
+int time_period = 4;  
 
 
 ///////////////////////////////////////////////////////////////
@@ -68,8 +68,10 @@ unsigned long debounceDelay = 50;    // the debounce time; increase if the outpu
 int count[4]={0,1,1,1};
 String menu="status";
 String menuStr;
-int wthres,valthres;
+int wthres=20;//default
+int valthres=20;//default
 int valvestate;
+String BTstate,Wifistate,dwthres,impd;
 //////////////////////////////////////////////
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -113,7 +115,6 @@ void setup() {
   //SerialBT.begin(bluetooth_name);
   //button setup
   for(int x=0;x<4;x++)pinMode(buttonPin[x],INPUT_PULLUP);
-  pinMode(ledPin, OUTPUT);
   pinMode(valvepin, OUTPUT);
   digitalWrite(valvepin, LOW);
   digitalWrite(ledPin, ledState);

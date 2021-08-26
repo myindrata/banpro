@@ -23,15 +23,26 @@ void peak_det(){
    float filtered1 = adcFilter1.filter(vin);
    float filtered2 = adcFilter2.filter(vout);
    //calculate z
-   zSoil=((filtered1/filtered2)-1)*zref; //kOhm
+   if (filtered2!=0)zSoil=((filtered1/filtered2)-1)*zref; //kOhm
+   if (isnan(zSoil))zSoil=0;
    //display_out()
+//    display.clearDisplay();
+//    display.setCursor(10,20);             
+//    display.println(analogRead(pin1));  
+//    display.setCursor(10,30);             
+//    display.println(analogRead(pin2)); 
+//    display.setCursor(10,40);             
+//    display.println(zSoil);  
+//    display.display();
    mx1 = 0; 
    mx2 = 0;
+   valve_con();
+
 }
 
-void testing(){
-     //just for testing
-   zSoil = random(0,4000)/100.0;
+void valve_con(){
+   //just for testing
+   //zSoil = random(0,4000)/100.0;
    //valve control
    if (zSoil>valthres+2){
     valvestate=1;
