@@ -27,6 +27,7 @@ long interval = 1000;
 unsigned long previousMillis = 0; 
 unsigned long previousMillis1 = 0; 
 ////
+                                                                                                                                                                        
 ////
 #define pin1 33
 #define pin2 32
@@ -34,7 +35,7 @@ unsigned long previousMillis1 = 0;
 float tArr=5;
 int sensorValue1, sensorValue2;
 float vin, vout;
-const float zref= 20.0;
+const float zref= 18.0;
 const float Vsupply = 3.3; 
 float zSoil;
 
@@ -54,7 +55,7 @@ int time_period = 4;
  * Button 4: OK
  */
 
-const int buttonPin[] = {12,13,27,14};     // if 1 ground {12,13,27,14} if 5 ground {14,27,13,12}
+const int buttonPin[] = {14,27,13,12};     // if 5 ground {12,13,27,14} if 1 ground {14,27,13,12}
 const int ledPin = 2;      // the number of the LED pin
 // Variables will change:
 int ledState = LOW;         // the current state of the output pin
@@ -85,8 +86,8 @@ String BTstate,Wifistate,dwthres,impd;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 //////////////////////////////////////////////
 #include "ThingSpeak.h"
-unsigned long myChannelNumber = 1483085;
-const char * myWriteAPIKey = "602828DGK05O5J92";
+unsigned long myChannelNumber = 1489052;
+const char * myWriteAPIKey = "2758Z5RECAP7ZZSF";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 20000;
 WiFiClient  client;
