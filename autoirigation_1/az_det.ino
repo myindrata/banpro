@@ -24,9 +24,9 @@ void peak_det(){
    float filtered2 = adcFilter2.filter(vout);
    //calculate z
    if (filtered2!=0){
-    zSoil=((filtered1/filtered2)-1)*zref; //kOhm
+    zSoil=((filtered1/filtered2)-1)*zref*0.95; //kOhm
     if (zSoil>500)zSoil=500;
-    zSoil=(-0.0008*(zSoil-11)+0.9)*zSoil;
+    //zSoil=(-0.0008*(zSoil-11)+0.9)*zSoil;
    }
    if (isnan(zSoil)|| zSoil<0)zSoil=0;
    

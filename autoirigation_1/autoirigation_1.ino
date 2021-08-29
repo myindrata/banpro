@@ -35,7 +35,7 @@ unsigned long previousMillis1 = 0;
 float tArr=5;
 int sensorValue1, sensorValue2;
 float vin, vout;
-const float zref= 18.0;
+const float zref= 20.0;
 const float Vsupply = 3.3; 
 float zSoil;
 
